@@ -356,7 +356,7 @@ SEXP mongo_index_create(SEXP mongo_conn, SEXP ns, SEXP key, SEXP options) {
         bson_finish(&b);
     }
     bson out;
-    int success = mongo_create_index(conn, _ns, _key, _options, &out);
+    int success = mongo_create_index(conn, _ns, _key, NULL, _options, &out);
     if (!keyIsBSON)
         bson_destroy(&b);
     if (success == MONGO_OK) {
@@ -416,7 +416,6 @@ SEXP mongo_simple_command(SEXP mongo_conn, SEXP db, SEXP cmdstr, SEXP arg) {
     else
         success = (mongo_simple_int_command(conn, _db, _cmdstr, asInteger(arg), &out) == MONGO_OK);
     if (!success) {
-        bson_destroy(&out);
         return R_NilValue;
     }
     SEXP ret = _mongo_bson_create(&out);
@@ -645,7 +644,7 @@ SEXP mongo_get_database_collections(SEXP mongo_conn, SEXP db) {
     strcpy(ns, _db);
     strcpy(ns+len, ".system.namespaces");
     bson empty;
-    bson_empty(&empty);
+    bson_init_empty(&empty);
     mongo_cursor* cursor = mongo_find(conn, ns, NULL, &empty, 0, 0, 0);
     int count = 0;
     while (cursor && mongo_cursor_next(cursor) == MONGO_OK) {

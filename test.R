@@ -385,3 +385,4 @@ mongo.gridfile.destroy(gridfile)
 
 mongo.disconnect(mongo)
 mongo.destroy(mongo)
+print("finished")

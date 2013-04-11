@@ -25,3 +25,12 @@ rmongodb/src/mongo.c
 rmongodb/src/env.h
 rmongodb/src/env.c
 rmongodb/src/numbers.c
+
+*.o
+*.os
+/rmongodb/src/mongo-c-driver/
+rmongodb.so
+/.RData
+/.Rhistory
+/rmongodb/src/bcon.c
+/rmongodb/src/bcon.h
